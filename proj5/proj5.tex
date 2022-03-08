@@ -1,0 +1,225 @@
+\documentclass[9pt]{beamer}
+\usepackage[sfdefault]{roboto}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[czech]{babel}
+\usepackage{styly/fluxmacros}
+\usefolder{styly}
+\usetheme[style=asphalt]{flux}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{graphics}
+\usepackage{colortbl}
+\usepackage{ragged2e}
+\usepackage{schemabloc}
+\usepackage{hyperref}
+\usebackgroundtemplate{
+\includegraphics[width=\paperwidth,height=\paperheight]{pictures/grey-abs.jpg}}
+\usepackage[czech]{babel}
+
+
+
+\title{SPOJENÉ SEZNAMY}
+\subtitle{JEDNOSMĚRNÝ, DVOJSMĚRNÝ}
+
+\author{JAROSLAV KVASNIČKA}
+\institute{VYSOKÉ UČENÍ TECHNICKÉ V BRNĚ \\FAKULTA INFORMAČNÍCH TECHNOLOGIÍ}
+\titlegraphic{pictures/chain-logo.png}
+
+
+
+\begin{document}
+\titlepage
+
+
+\begin{frame}
+\frametitle{TABLE OF CONTENTS}
+\tableofcontents
+\end{frame}
+
+
+\section{TROCHA TEORIE}
+\begin{frame}{TROCHA TEORIE}
+    \begin{itemize}
+        \item Lineární datová struktura
+        \item Prvky na sebe ukazují pomocí ukazatelů
+        \item Každý prvek obsahuje data a ukazatele na následující, nebo přechozí prvek
+        \item Pokud hlavička (začátek seznamu) ukazuje na patičku (konec seznamu), pak je seznam prázdný
+    \end{itemize}
+    \begin{itemize}
+        \setbeamercolor*{itemize item}{fg=green}
+        \item Velikost obsažené paměti je přímo závislá na počtu prvků
+        \item rychlost při vkládání a odebáríná je vždy stejně vysoká
+    \end{itemize}
+    \begin{itemize}
+        \setbeamercolor*{itemize item}{fg=red}
+        \item Pomalé vyhledávání prvku \textit{i}
+        \item Pouze sekvenční přístup k prvkům
+    \end{itemize}
+\end{frame}
+
+
+\section{JEDNOSMĚRNÝ SEZNAM}
+\begin{frame}[fragile]{JEDNOSMĚRNÝ SEZNAM}
+\begin{figure}[h]
+\scalebox{0.4}{\includegraphics{pictures/linked_list.png}}
+\end{figure}
+\begin{itemize}
+    \item Struktura prvku obsahuje pouze data a ukazatel na další prvek
+    \item Hledání prvku
+    \begin{lstlisting}
+bool search(struct Node* head, int x){
+    struct Node* current = head;
+    while (current != NULL){
+        if (current->key == x)
+            return true;
+        current = current->next;
+    }
+    return false;
+}
+    \end{lstlisting}
+\end{itemize}
+\end{frame}
+
+
+\section{ZÁKLADNÍ OPERACE JEDNOSMĚRNÉHO SEZNAMU}
+\begin{frame}[fragile]{ZÁKLADNÍ OPERACE JEDNOSMĚRNÉHO SEZNAMU}
+\begin{itemize}
+\item Odstranění prvku ze seznamu
+    \begin{lstlisting}[language=C]
+void deleteNode(Node** head, int key)
+{
+    Node* temp = *head;
+    Node* prev = NULL;
+    if (temp != NULL && temp->data == key){
+        *head = temp->next;
+        delete temp;            
+        return;
+    }
+    else{
+    while (temp != NULL && temp->data != key){
+        prev = temp;
+        temp = temp->next;
+    }
+    if (temp == NULL)
+        return;
+    prev->next = temp->next;
+    delete temp;
+    }
+}
+    \end{lstlisting}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{ZÁKLADNÍ OPERACE JEDNOSMĚRNÉHO SEZNAMU}
+\begin{itemize}
+\item Vložení prvku nakonec seznamu
+    \begin{lstlisting}[language=C]
+void append(struct Node** head, int new_data)
+{
+    struct Node* new_node =
+(struct Node*) malloc(sizeof(struct Node));
+    struct Node *last = *head;
+    new_node->data  = new_data;
+    new_node->next = NULL;
+    if (*head == NULL){
+       *head = new_node;
+       return;
+    }  
+    while (last->next != NULL)
+        last = last->next;
+    last->next = new_node;
+    return;    
+}
+    \end{lstlisting}
+\end{itemize}
+\end{frame}
+
+
+\section{DVOJSMĚRNÝ SEZNAM}
+\begin{frame}[fragile]{DVOJSMĚRNÝ SEZNAM}
+\begin{figure}[h]
+\scalebox{0.4}{\includegraphics{pictures/doub_linked_list.png}}
+\end{figure}
+\begin{itemize}
+    \item Struktura obsahuje data a ukazatele na další a předchozí prvek
+    \item Hledání v seznamu
+    \begin{lstlisting}
+int search(Node** head, int x)
+{
+    Node* temp = *head;
+    int pos = 0;
+    while (temp->data != x && temp->next != NULL) {
+        pos++;
+        temp = temp->next;
+    }
+    if (temp->data != x)
+        return -1;
+    return (pos + 1);
+}
+    \end{lstlisting}
+\end{itemize}
+\end{frame}
+
+
+\section{ZÁKLADNÍ OPERACE OBOUSMĚRNÉHO SEZNAMU}
+\begin{frame}[fragile]{ZÁKLADNÍ OPERACE OBOUSMĚRNÉHO SEZNAMU}
+\begin{itemize}
+\item Odstranění prvku ze seznamu
+    \begin{lstlisting}[language=C]
+void deleteNode(struct Node** head_ref, struct Node* del){
+    if (*head_ref == NULL || del == NULL)
+        return;
+    if (*head_ref == del)
+        *head_ref = del->next;
+    if (del->next != NULL)
+        del->next->prev = del->prev;
+    if (del->prev != NULL)
+        del->prev->next = del->next;
+    free(del);
+    return;
+}
+    \end{lstlisting}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{ZÁKLADNÍ OPERACE OBOUSMĚRNÉHO SEZNAMU}
+\begin{itemize}
+\item Vložení prvku do seznamu za daný prvek
+    \begin{lstlisting}[language=C]
+void insertAfter(struct Node* prev_node, int new_data){
+    if (prev_node == NULL) {
+        printf("the given previous node cannot be NULL");
+        return;
+    }
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    new_node->data = new_data;
+    new_node->next = prev_node->next;
+    prev_node->next = new_node;
+    new_node->prev = prev_node;
+    if (new_node->next != NULL)
+        new_node->next->prev = new_node;
+}
+    \end{lstlisting}
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{POUŽITĚ ZDROJE}
+\begin{thebibliography}{}
+\setbeamertemplate{bibliography item}[online]
+\bibitem[Geeksforgeeks]{} Geeksforgeeks
+\newblock \texttt{https://www.geeksforgeeks.org/}
+\bibitem[Overleaf]{} Template
+\newblock \texttt{https://cs.overleaf.com/latex/templates/}
+\bibitem[Overleaf]{} Beamer theory
+\newblock \texttt{https://cs.overleaf.com/learn/latex/beamer}
+\end{thebibliography}
+\end{frame}
+
+
+\end{document}

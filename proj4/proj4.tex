@@ -1,0 +1,67 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[left=2cm,top=3cm,text={17cm, 24cm}]{geometry}
+\usepackage[czech]{babel}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\Huge\textsc{Vysoké učení technické v Brně} \\
+\huge\textsc{Fakulta informačních technologií}
+\vspace{\stretch{0.382}}
+\\
+\LARGE Typografie a publikování\,--\,4. projekt \\ \Huge{Bibliografické citace} \vspace{\stretch{0.618}}
+\end{center}
+{\Large \today \hfill
+Jaroslav Kvasnička}
+\end{titlepage}
+
+
+
+\section{Historie Typografie}
+Typografie jako taková se nejvíce začala rozvíjet po vynalezení knihtisku Johannem Gutenbergem. Typografie se dělí do několika oborů jako jsou makrotypografie a mikrotypografie viz \cite{HaleyAllan}.
+\par
+Makrotypografie se zabývá rozložením textu na stránku, jeho proporcemi, ilustracemi a celkovým vzhledem.
+Zatímco mikrotypografie se zabývá detaily písma, jeho fonty, a uměleckou tvorbou písma \cite{MartinaVichova}.
+
+
+\section{Pravidla typografie}
+Od doby knihtisku po současnost se vyvinulo mnoho typografických pravidel. Základní pravidla jsou napřídklad optický střed, zlatý řez, normalizované formáty a další. Ikdyž se u moderních textů můžeme setkávat s narušením některých z nich, pravidlo čitelnosti by mělo vždy zůstat \cite{Vesely}. Při čtení textu by čtenář neměl být nikdy vyčerpávaný jeho nevzhledností \cite{JanRajlich}.
+
+
+\section{Typografie v roce 2021}
+V letošním roce vzniklo mnoho nových fontů. Zde je několik příkladů populárně používaných fontů, které se objevují v různých částí trhu, od webových tutoriálů přes design na oblečení a boty až po umění viz \cite{TheLogoCreative2021}:
+\begin{itemize}
+\item{Měnící základ}
+\item{Pěvné stíny}
+\item{Extra ostré úhly}
+\item{Kineitcká typografie}
+\item{Retro-futuristické fonty}
+\item{Experimentální písmo}
+\item{Písmo s animací}
+\end{itemize}
+
+
+\section{{\LaTeX}}
+Tex je program používaný k psaní dokumentů, prezentací, vědeckých článků, kvalifikačních prací. \LaTeX je překladač, který se používá k přeložení zdrojového kódu do hotového textového souboru většinou s příponou \texttt{*.pdf} \cite{PavelBOJKO}. Existuje spousta programů, které používají \LaTeX jako například: {\TeX}maker, LyX, Overleaf, Papeeria a mnoho dalších viz \cite{BestLatexEditors}.
+
+
+\section{{\TeX}}
+Je program na úpravu textu, který kromě normálního sázení textu umí vysázet i matematické formule. {\TeX} také umí sázet písmena jiných než integrovaných jazyků jako například čeština, francouština \dots nicméně se musí použít příkaz \texttt{{\textbackslash}usepackage[language]\{babel\}}, kde language je jazyk, který chceme do {\TeX}u importovat \cite{PetrOlsak}.
+\par
+Také lze zapisovat a generovat matematické formule a rovnice. Ty se při překladu rozloží a sestaví se z abstraktní syntaktický strom. Nejprve se dělá podle relací až dojde k prvkům \cite{conferenc}.
+\par
+Příklad vysázené rovnice (lze nalést v~\cite{JiriKosek})
+$$ \lim_{n \rightarrow \infty} \left(1 + {1 \over n} \right)^n = e $$
+
+
+\newpage
+\bibliographystyle{czechiso}
+\bibliography{literature}
+
+
+\end{document}
